@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosPromise } from "axios"
 import { FoodData } from '../interface/FoodDate';
 
@@ -10,12 +10,12 @@ const postData = async (data: FoodData): AxiosPromise<any> => {
 }
 
 export function useFoodDataMutate(){
-    
+    const queryClient = useQueryClient();
     const mutate = useMutation({
         mutationFn: postData,
         retry: 2,
         onSuccess: () => {
-            
+            queryClient.invalidateQueries(['food-data'])
         }
     })
 
